@@ -12,7 +12,13 @@ public class RichieRich {
      *  3. INTEGER k
      */
     public static String highestValuePalindrome(String s, int n, int k) {
-        int half = (int) (n % 2 == 0 ? n / 2.0 : (n + 1) / 2.0);
+        if (n==1 ){
+            if(k>0)
+                return "9";
+            return "-1";
+        }
+        double halfD = (n % 2 == 0 ? n / 2.0 : (n + 1) / 2.0);
+        int half = (int) Math.ceil(halfD);
         int last = n - 1;
         char[] arr = new char[n];
         int countNotRight = 0;
@@ -21,21 +27,29 @@ public class RichieRich {
                 // count the instances to replace to form a palindrome
                 countNotRight++;
                 arr[i] = '9';
-                arr[last-i] = '9';
-            }else {
+                arr[last - i] = '9';
+            } else {
                 arr[i] = s.charAt(i);
                 arr[last - i] = s.charAt(last - i);
             }
         }
-        int i =0;
-        while (i<=half){
-            for (int i = 0; i < half; i++) {
-
-            }
-        if (countNotRight > k){
+        if (countNotRight > k) {
             return "-1";
         }
+        int i = 0;
 
+        while (i <= half && k > 0) {
+            if ((k == 1) && (n % 2 != 0)) {
+                arr[half] = '9';
+                break;
+            }
+            if (s.charAt(i) != '9' && (k % 2 == 0)) {
+                arr[i] = '9';
+                arr[i + half] = '9';
+                k--;
+            }
+            i++;
+        }
         return String.valueOf(arr);
     }
 
